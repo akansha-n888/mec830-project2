@@ -1,3 +1,5 @@
+/* sample IR remote code*/
+
 #include <IRremote.h>
 
 const int RECV_PIN = 12;
