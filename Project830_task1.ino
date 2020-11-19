@@ -6,7 +6,7 @@ The following program is the attributed tot Task 1 (manual control)*/
 #include <Stepper.h>
 
 const int stepsPerRevolution = 2048;
-Stepper stepper = Stepper(stepsPerRevolution, 11, 9, 10, 8);                  //might have to change depending on your set up (i.e. 8,9,10,11)
+Stepper stepper = Stepper(stepsPerRevolution, 8, 9, 10, 11);                 
 
 //DC motor paramters
 #define ENABLE 5
