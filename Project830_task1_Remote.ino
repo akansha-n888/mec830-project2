@@ -1,5 +1,7 @@
 //www.elegoo.com
 //2016.12.12
+/* Chirs - version*/
+/* uses stepper, servo and IR remote*/
 
 #include "Stepper.h"
 #include "IRremote.h"
