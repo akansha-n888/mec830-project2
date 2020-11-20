@@ -40,14 +40,14 @@ if (irrecv.decode(&results)) // have we received an IR signal?
                       Steps2Take  =  2048;  // Rotate CW
                       small_stepper.step(Steps2Take);
                       delay(2000); 
-                      break;
+                      break;                                                     //maybe add a loop here to constantly rotate servo?
 
       case 0xFF629D: // VOL- button pressed
                       small_stepper.setSpeed(500);
                       Steps2Take  =  -2048;  // Rotate CCW
                       small_stepper.step(Steps2Take);
                       delay(2000); 
-                      break;
+                      break;                                                  //maybe add a loop here to constantly rotate servo?
 
       case 0xFFC23D: // Forward Skip button pressed
                      myservo.write(0); 
