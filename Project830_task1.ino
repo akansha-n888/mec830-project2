@@ -35,12 +35,12 @@ if (irrecv.decode(&results))                             // have we received an 
     {
 
       case 0xFFA857:                                     // VOL+ button pressed - move system forward with stepper
-      stepper.step(2048);
+      stepper.step(2048);                                 //maybe add loop here
       delay(10);
                       break;
 
       case 0xFF629D:                                     // VOL- button pressed - move system backward with stepper
-      stepper.step(-2048);
+      stepper.step(-2048);                                //maybe add a loop here?
       delay(10);
                       break;
 
