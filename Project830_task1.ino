@@ -16,7 +16,7 @@ void setup() {
   myservo.attach(7);
 
   stepper.step(0);                  
-  stepper.setSpeed(10);   
+  stepper.setSpeed(50);   
 
   irrecv.enableIRIn();
   
@@ -35,7 +35,7 @@ if (irrecv.decode(&results))                             // have we received an 
     {
 
       case 0xFFA857:                                     // VOL+ button pressed - move system forward with stepper
-      stepper.step(2048);                                 //maybe add loop here
+        stepper.step(2048);                                 //maybe add loop?
       delay(10);
                       break;
 
