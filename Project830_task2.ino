@@ -18,6 +18,9 @@ double Setpoint, Input, Output;
 double Kp = 3.2, Ki =0.0002, Kd = 0.0002;                           //need to retune/adjust based on your set up
 PID myPID(&Input, &Output, &Setpoint, Kp, Ki, Kd, DIRECT);
 
+int previous = 0;
+int pos =0;
+
 void setup()
 {
   pinMode(echoPin, INPUT);                                        //initialise sensor paramters
@@ -25,9 +28,8 @@ void setup()
  
   myservo.attach(7);                                             //set servo to pin 7
   myservo.write(0);
-  Setpoint = 7;                                                 //adjust setpoint
      
-  stepper.setSpeed(5);                                          //adjust
+  stepper.setSpeed(50);                                          //adjust
      
  //Initialize PID parameters
   myPID.SetMode(AUTOMATIC);
@@ -41,54 +43,64 @@ void setup()
 void loop()
 {
 
-  //move stepper to move foward-back
-  if (){
-      stepper.step(diff/20 - previous);
-      previous = diff;
-      Serial.print("steps ldr1:");
-      Serial.print(diff/20 - previous);
+  int obstacle = 7;                        //7 cm from path
+  distance = calculateDistance();
+  int val = distance;
+  
+  //move stepper to move foward-back (motorknob)
+  
+  if (distance > obstacle){
+      stepper.step(val - previous);       //move a number of steps equal to change in sensor reading
+      previous = val;
+      
+      Serial.print("distance:");
+      Serial.print(distance);
       Serial.print("\t");
-      delay(10) 
+      delay(10);
+      Serial.print("steps:");
+      Serial.print(val - previous);
+      Serial.print("\t");
+      delay(10); 
       }
    else{
-          stepper.step(diff/20 - previous);
-      previous = diff;
-      Serial.print("steps ldr1:");
-      Serial.print(diff/20 - previous);
+      stepper.step(val + previous);       //move a number of steps equal to change in sensor reading
+      previous = val;
+      
+      Serial.print("distance:");
+      Serial.print(distance);
       Serial.print("\t");
-      delay(10)
+      delay(10);
+      Serial.print("steps:");
+      Serial.print(val + previous);
+      Serial.print("\t");
+      delay(10); 
       }
 
-      //move servo motor
-
-  if ()
-  distance = calculateDistance();
-  delay(20);
   Input = distance;
-  delay(10);
+  Setpoint = obstacle;
   
   myPID.Compute();
+  pos = map(Output, 0, 255, 0, 180);   //maybe change the mapping to smaller values 
+
+  if (distance == obstacle){
+  myservo.write(pos);
+  }
   
-  angle = map(Output, -25, 25, 0, 120);   //maybe change the mapping to smaller values 
-  delay(20);     
-  myservo.write(angle);
-  delay(10); 
- 
-  Serial.print("Angle:");
-  Serial.print(angle);
-  Serial.print("\t");
-  delay(10);
   Serial.print("Input:");
   Serial.print(Input);
-  Serial.print("\t");
-  delay(10);
+  Serial.print("  ");
+  delay(50);
   Serial.print("Output:");
   Serial.print(Output);
-  Serial.print("\t");
-  delay(10);
+  Serial.print("  ");
+  delay(50);
+  Serial.print("Servo Angle:");
+  Serial.print(pos);
+  Serial.print("  ");
+  delay(50);
   Serial.print("Setpoint:");
   Serial.println(Setpoint);
-  delay(10);
+  delay(50);
 }
 
 // Function for calculating the distance measured by the Ultrasonic sensor
