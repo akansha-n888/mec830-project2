@@ -1,16 +1,11 @@
-//www.elegoo.com
-//2016.12.12
-/* Chirs - version*/
-/* uses stepper, servo and IR remote*/
-
-#include "Stepper.h"
-#include "IRremote.h"
+#include <IRremote.h>
+#include <Stepper.h>
 #include <Servo.h>
 
 /*----- Variables, Pins -----*/
 #define STEPS  32   // Number of steps per revolution of Internal shaft
 int  Steps2Take;  // 2048 = 1 Revolution
-int receiver = 12; // Signal Pin of IR receiver to Arduino Digital Pin 6
+int receiver = 6; // Signal Pin of IR receiver to Arduino Digital Pin 6
    
    Servo myservo;
 
@@ -21,8 +16,8 @@ decode_results results;     // create instance of 'decode_results'
 void setup()
 { 
   irrecv.enableIRIn(); // Start the receiver
-  myservo.attach(7);
-  myservo.write(90);
+  myservo.attach(4);
+  myservo.write(180);
   Serial.begin(9600);
 }
 
@@ -50,10 +45,14 @@ if (irrecv.decode(&results)) // have we received an IR signal?
                       break;                                                  //maybe add a loop here to constantly rotate servo?
 
       case 0xFFC23D: // Forward Skip button pressed
-                     myservo.write(0); 
+                     myservo.write(1); 
+                     Serial.print("L");
+                     break;
 
       case 0xFF22DD: // Backward Skip button pressed 
-                     myservo.write(180);
+                     myservo.write(300);
+                     Serial.print("R");
+                     break;
                                 
     }
       irrecv.resume(); // receive the next value
