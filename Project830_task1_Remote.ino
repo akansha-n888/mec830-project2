@@ -17,7 +17,7 @@ void setup()
 { 
   irrecv.enableIRIn(); // Start the receiver
   myservo.attach(4);
-  myservo.write(180);
+  myservo.write(0);
   Serial.begin(9600);
 }
 
@@ -30,28 +30,26 @@ if (irrecv.decode(&results)) // have we received an IR signal?
 
     {
 
-      case 0xFFA857: // VOL+ button pressed
+      case 0xFF629D: // VOL+ button pressed
                       small_stepper.setSpeed(500); //Max seems to be 500
                       Steps2Take  =  2048;  // Rotate CW
                       small_stepper.step(Steps2Take);
                       delay(2000); 
                       break;                                                     //maybe add a loop here to constantly rotate servo?
 
-      case 0xFF629D: // VOL- button pressed
+      case 0xFFA857: // VOL- button pressed
                       small_stepper.setSpeed(500);
                       Steps2Take  =  -2048;  // Rotate CCW
                       small_stepper.step(Steps2Take);
                       delay(2000); 
                       break;                                                  //maybe add a loop here to constantly rotate servo?
 
-      case 0xFFC23D: // Forward Skip button pressed
+      case 0xFF22DD: // Forward Skip button pressed
                      myservo.write(1); 
-                     Serial.print("L");
                      break;
 
-      case 0xFF22DD: // Backward Skip button pressed 
-                     myservo.write(300);
-                     Serial.print("R");
+      case 0xFFC23D: // Backward Skip button pressed 
+                     myservo.write(180);
                      break;
                                 
     }
